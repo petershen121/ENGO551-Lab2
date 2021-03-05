@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Map of Calgary</title>
+
+
+
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+	<style>
+
+	</style>
+
+</head>
+
+<body>
+<div id="map" style="width: 1800px; height: 900px;"></div>
+
+<script src="test.js" type="text/javascript"></script>
+
+<script>
+
+	var map = L.map('map').setView([51.0447, -114.0719], 14);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		minZoom: 12,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(map);
+
+
+	function onEachFeature(feature, layer) {
+	var popupContent = "<p>The issue date is: " +
+				feature.properties.issueddate +
+				"<p>The Work Class Group is: " + feature.properties.workclassgroup +
+				"<p>The Contactor Name is: " + feature.properties.contructorname +
+				"<p>The Community Name is: " + feature.properties.communityname +
+				"<p>The Original Address is: " + feature.properties.originaladdress +
+				"</p>";
+
+	if (feature.properties && feature.properties.popupContent) {
+			popupContent += feature.properties.popupContent;
+		}
+
+		layer.bindPopup(popupContent);
+	}
+
+	L.geoJSON(regions, {
+
+		style: function (feature) {
+			return feature.properties && feature.properties.style;
+		},
+		// filter: function (feature, layer){
+		// 	return feature.properties.issueddate > "2020-01-20" && feature.properties.issueddate < "2021-02-20";
+		// },
+
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+
+
+
+</script>
+
+
+<br>
+<a href="file:///C:/Users/peter/OneDrive/%E6%A1%8C%E9%9D%A2/ENGO551/lab2/551_Lab2/index.html">back to search page<br></a>
+</body>
+</html>
